@@ -1,24 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using System.Collections.Generic;
 public class pathmaker : MonoBehaviour {
 	//int counter=0;
-	public Transform floorPrefab;
+	List<GameObject> floorPrefabIndex=new List<GameObject>();//creates a list for the potential prefabs
+	public GameObject floorPrefab1;
+	public GameObject floorPrefab2;
+	public GameObject floorPrefab3;
+
 	public Transform pathmakerSpherePrefab;
 	public static int numberOfTiles;
 	public static int numberOfPathMakers=0;
+
 	int capNumber;
 	int rotateNumber;
 	// Use this for initialization
 	void Start () {
 		capNumber = Random.Range (500, 750);
 		rotateNumber = Random.Range (0, 4) * 90;
-		floorPrefab.GetComponent<Renderer> ().sharedMaterial.color = Random.ColorHSV();
+
+		floorPrefabIndex.Add (floorPrefab1);//adds the three prefabs into the list by choosing them in the inspector
+		floorPrefabIndex.Add (floorPrefab2);
+		floorPrefabIndex.Add (floorPrefab3);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (numberOfTiles<capNumber) {
+			int floorPrefab=UnityEngine.Random.Range(0,3);//script picks a random prefab from the list
 					float number = Random.value;
 					if (number < .15f) {
 				transform.Rotate (0, rotateNumber, 0);
@@ -29,7 +40,7 @@ public class pathmaker : MonoBehaviour {
 				numberOfPathMakers++;
 
 			}
-					Instantiate (floorPrefab, transform.position, transform.rotation);
+			Instantiate (floorPrefabIndex[floorPrefab], transform.position, transform.rotation);//the chosen prefab is instantiated randomly
 					transform.Translate(0,0,5f);
 
 			numberOfTiles++;
